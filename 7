@@ -1,0 +1,118 @@
+// This is MainActivity.Java
+
+package com.example.personalphotoapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    Integer[] Cats = {R.drawable.bambi_friend, R.drawable.bambi_laying, R.drawable.bambi_sitting, R.drawable.newborn_kittens, R.drawable.cat_family,
+            R.drawable.panda_watching, R.drawable.panda_peeking, R.drawable.oreo_relaxing};
+    ImageView pic;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        GridView grid = (GridView) findViewById(R.id.gridView);
+        final ImageView pic = (ImageView) findViewById(R.id.imgLarge);
+        grid.setAdapter(new ImageAdapter(this));
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getBaseContext(), "Cats Pictures" + (position + 1), Toast.LENGTH_SHORT).show();
+                pic.setImageResource(Cats[position]);
+            }
+        });
+    }
+    public class ImageAdapter extends BaseAdapter {
+        private Context context;
+        public ImageAdapter (Context c) {
+            context=c;
+        }
+
+        public ImageAdapter(MainActivity mainActivity) {
+        }
+
+        @Override
+        public int getCount() {
+            return Cats.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            pic = new ImageView(context);
+            pic.setImageResource(Cats[position]);
+            pic.setScaleType(ImageView.ScaleType.FIT_XY);
+            pic.setLayoutParams(new GridView.LayoutParams(330,300));
+            return pic;
+        }
+
+        @Override
+        public int getItemViewType(int i) {
+            return 0;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+    }
+}
+
+
+//This is strings.xml
+<resources>
+    <string name="app_name">Personal Photo App</string>
+    <string name="imgLarge">Cat Images</string>
+</resources>
+
+//This is activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnWidth="160dp"
+        android:horizontalSpacing="5dp"
+        android:numColumns="3"
+        android:verticalSpacing="5dp" />
+
+        <ImageView
+            android:id="@+id/imgLarge"
+            android:layout_marginTop="10dp"
+            android:layout_width="270dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/imgLarge" />
+        </LinearLayout>
