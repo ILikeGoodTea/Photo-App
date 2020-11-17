@@ -1,0 +1,262 @@
+//activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoText="false"
+        android:gravity="center"
+        android:text="@string/txtTitle"
+        android:textColor="#FF0000"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imgAuto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/car" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtDescription"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
+
+    <CheckBox
+        android:id="@+id/txtDeluxe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtDeluxe"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox8"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgAuto" />
+
+    <CheckBox
+        android:id="@+id/txtGold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtGold"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox6"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+
+    <CheckBox
+        android:id="@+id/txtPremium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtPremium"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox9"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox6" />
+
+    <CheckBox
+        android:id="@+id/txtPaint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtPaint" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Service"
+        android:layout_gravity="center_horizontal"
+        app:backgroundTint="#FB0000"
+        android:id="@+id/select_result"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:id="@+id/final_result"/>
+
+    <Button
+        android:id="@+id/btnDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnDate"
+        app:backgroundTint="#FB0000" />
+
+
+
+</TableLayout>
+
+
+
+
+//strings.xml ----------------->
+<resources>
+    <string name="app_name">Final Touch Auto Detailing Tablet App</string>
+    <string name="imgAuto">Auto Detailing Image</string>
+    <string name="txtTitle">Auto Detailing Services</string>
+    <string name="txtDescription">The Car Detailer will clean vehicles, which may include performing detail inspections, washing, buffing, and waxing exteriors, vacuuming, steaming. We ensure quality work is done before moving on.</string>
+    <string name="btnDate">Schedule an appointment today!</string>
+    <string name="txtDeluxe">$ 70.00 - Exterior Wash, Tire Shine, Interior Vacuum, Wipe Down,</string>
+    <string name="txtGold">$ 120.00 - Exterior Wash + Eco Spray Wax, Tire Shine, Interior Vacuum, Wipe Down, High Quality Paste Wax</string>
+    <string name="txtPremium">$ 170.00 - Exterior Wash + Eco Spray Wax, Tire Shine, Interior Vacuum, Wipe Down, High Quality Paste Wax, Interior Deep Clean + Conditioning, Shampoo Carpets, Mats</string>
+    <string name="txtPaint">$ 50.00 - Paint Correction</string>
+</resources>
+
+
+
+
+//Main Activity.java ---------------->
+package com.example.finaltouchautodetailingtabletapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
+    private CheckBox mDeluxe, mGold, mPremium, mPaint;
+    private Button mResultButton;
+    private TextView mResultText;
+    private ArrayList<String> mResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mDeluxe = findViewById(R.id.txtDeluxe);
+        mGold = findViewById(R.id.txtGold);
+        mPremium = findViewById(R.id.txtPremium);
+        mPaint = findViewById(R.id.txtPaint);
+
+        mResultButton = findViewById(R.id.select_result);
+        mResultText = findViewById(R.id.final_result);
+        mResult = new ArrayList<>();
+        mResultText.setEnabled(false);
+
+        mDeluxe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mDeluxe.isChecked())
+                    mResult.add("Deluxe");
+                else
+                    mResult.remove("Deluxe");
+
+            }
+        });
+
+        mGold.setOnClickListener(new View.OnClickListener() {
+                                     @Override
+                                     public void onClick(View view) {
+                                         if (mGold.isChecked())
+                                             mResult.add("Gold");
+                                         else
+                                             mResult.remove("Gold");
+
+                                     }
+                                 });
+
+        mPremium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mPremium.isChecked())
+                    mResult.add("Premium");
+                else
+                    mResult.remove("Premium");
+
+            }
+        });
+
+        mPaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mPaint.isChecked())
+                    mResult.add("Paint");
+                else
+                    mResult.remove("Paint");
+
+            }
+        });
+
+        mResultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String s :mResult)
+                    stringBuilder.append(s).append("\n");
+
+                mResultText.setText(stringBuilder.toString());
+                mResultText.setEnabled(false);
+            }
+        });
+
+        Button button = (Button) findViewById(R.id.button);
+    button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            DialogFragment datePicker = new DataPickerFragment();
+            datePicker.show(getSupportFragmentManager(),"date picker");
+        }
+    });
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String currentDateString = DateFormat.getDateInstance().format(c.getTime());
+    }
+}
+
+
+
+//DataPickerFragment.java ------------------->
+package com.example.finaltouchautodetailingtabletapp;
+
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+
+import java.util.Calendar;
+
+public class DataPickerFragment extends DialogFragment {
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+
+        return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
+    }
+}
+
